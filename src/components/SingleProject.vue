@@ -1,9 +1,9 @@
 <template>
   <div class="project">
     <div class="actions">
-      <h3>{{ project.title }}</h3>
+      <h3 @click="toggleVisibility">{{ project.title }}</h3>
     </div>
-    <div class="details">
+    <div class="details" v-show="visible">
       <p>{{ project.details }}</p>
     </div>
   </div>
@@ -12,7 +12,17 @@
 <script>
 export default {
   name: 'SingleProject',
-  props: ['project']
+  props: ['project'],
+  data() {
+    return {
+      visible: false
+    }
+  },
+  methods: {
+    toggleVisibility() {
+      this.visible = !this.visible
+    }
+  }
 }
 </script>
 
