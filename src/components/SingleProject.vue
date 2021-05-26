@@ -4,7 +4,7 @@
       <h3 @click="toggleVisibility">{{ project.title }}</h3>
       <div class="icons">
         <span class="material-icons">edit</span>
-        <span class="material-icons">delete</span>
+        <span @click="deleteProject" class="material-icons">delete</span>
         <span class="material-icons">done</span>
       </div>
     </div>
@@ -20,12 +20,16 @@ export default {
   props: ['project'],
   data() {
     return {
-      visible: false
+      visible: false,
+      uri: 'http://localhost:3000/projects/' + this.project.id
     }
   },
   methods: {
     toggleVisibility() {
       this.visible = !this.visible
+    },
+    deleteProject() {
+      fetch(this.uri, { method: 'DELETE' })
     }
   }
 }
