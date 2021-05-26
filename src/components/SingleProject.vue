@@ -3,9 +3,9 @@
     <div class="actions">
       <h3 @click="toggleVisibility">{{ project.title }}</h3>
       <div class="icons">
-        <span class="material-icons">done</span>
         <span class="material-icons">edit</span>
         <span class="material-icons">delete</span>
+        <span class="material-icons">done</span>
       </div>
     </div>
     <div class="details" v-show="visible">
@@ -42,5 +42,10 @@ export default {
 }
 h3 {
   cursor: pointer;
+}
+.actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 </style>
