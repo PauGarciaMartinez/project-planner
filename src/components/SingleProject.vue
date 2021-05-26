@@ -2,6 +2,11 @@
   <div class="project">
     <div class="actions">
       <h3 @click="toggleVisibility">{{ project.title }}</h3>
+      <div class="icons">
+        <span class="material-icons">done</span>
+        <span class="material-icons">edit</span>
+        <span class="material-icons">delete</span>
+      </div>
     </div>
     <div class="details" v-show="visible">
       <p>{{ project.details }}</p>
