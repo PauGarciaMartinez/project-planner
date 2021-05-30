@@ -18,7 +18,12 @@ export default {
   },
   methods: {
     handleSubmit() {
-      console.log(this.title, this.details)
+      let project = {
+        title: this.title,
+        details: this.details, 
+        complete: false
+      }
+      fetch('')
     }
   }
 }
