@@ -20,7 +20,14 @@ export default {
   },
   methods: {
     handleUpdate() {
-      
+      let editedProject = {
+        title: this.title,
+        details: this.details
+      }
+      fetch(this.uri, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' }
+      })
     }
   },
   mounted() {
