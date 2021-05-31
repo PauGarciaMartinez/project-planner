@@ -4,7 +4,7 @@
     <input type="text" v-model="title" required>
     <label>Details</label>
     <textarea v-model="details" required></textarea>
-    <button>Update Project</button>
+    <button @click="handleUpdate">Update Project</button>
   </form>
 </template>
 
@@ -16,6 +16,11 @@ export default {
       title: '',
       details: '',
       uri: `http://localhost:3000/projects/${this.id}`
+    }
+  },
+  methods: {
+    handleUpdate() {
+      
     }
   },
   mounted() {
