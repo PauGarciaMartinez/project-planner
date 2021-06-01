@@ -42,4 +42,16 @@ export default {
 .filter-nav button.active {
   color: #555;
 }
+@media only screen and (max-width: 440px) {
+  .filter-nav {
+    text-align: center;
+  }
+}
+@media only screen and (max-width: 300px) {
+  .filter-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
 </style>

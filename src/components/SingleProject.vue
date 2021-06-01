@@ -80,4 +80,15 @@ h3 {
 .project.complete .tick {
   color: #00ce89;
 }
+@media only screen and (max-width: 440px) {
+  .actions {
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: center;
+    text-align: center;
+  }
+  .material-icons {
+    margin-top: 0.5rem;
+  }
+}
 </style>
