@@ -15,6 +15,7 @@
 <script>
 import SingleProject from '@/components/SingleProject'
 import FilterNav from '@/components/FilterNav'
+import { projectFirestore } from '../firebase/config'
 
 export default {
   name: 'Home',
@@ -28,11 +29,16 @@ export default {
       current: 'all'
     }
   },
-  mounted() {
-    fetch("http://localhost:3000/projects")
-      .then(res => res.json())
-      .then(data => this.projects = data)
-      .catch(err => console.log(err.message))
+  async mounted() {
+    let res = await projectFirestore.collection('projects')
+      .orderBy('created', 'desc')
+      .get();
+
+    console.log(res)
+
+    this.projects = res.docs.map(doc => { 
+      return { ...doc.data(), id: doc.id }
+    })
   },
   methods: {
     handleDelete(id) {
