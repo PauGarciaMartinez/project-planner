@@ -16,6 +16,7 @@
 import SingleProject from '@/components/SingleProject'
 import FilterNav from '@/components/FilterNav'
 import { projectFirestore } from '../firebase/config'
+import { ref, computed } from '@vue/runtime-core'
 
 export default {
   name: 'Home',
@@ -23,42 +24,40 @@ export default {
     SingleProject,
     FilterNav
   },
-  data() {
-    return {
-      projects: [],
-      current: 'all'
-    }
-  },
-  async mounted() {
-    let res = await projectFirestore.collection('projects')
+  setup() {
+    const projects = ref([])
+    const current = ref('all')
+
+    projectFirestore.collection('projects')
       .orderBy('created', 'desc')
-      .get();
+      .onSnapshot(snap => {
+        let docs = snap.docs.map(doc => {
+          return { ...doc.data, id: doc.id }
+        })
+        projects.value = docs
+      })
 
-    console.log(res)
+    const handleDelete = (id) => {
+      projects.value = projects.value.filter(project => project.id !== id)
+    }
 
-    this.projects = res.docs.map(doc => { 
-      return { ...doc.data(), id: doc.id }
-    })
-  },
-  methods: {
-    handleDelete(id) {
-      this.projects = this.projects.filter(project => project.id !== id)
-    },
-    handleComplete(id) {
-      let p = this.projects.find(project => project.id === id)
+    const handleComplete = (id) => {
+      let p = projects.value.find(project => project.id === id)
       p.complete = !p.complete
     }
-  },
-  computed: {
-    filteredProjects() {
-      if (this.current === 'completed') {
-        return this.projects.filter(project => project.complete)
+
+    const filteredProjects = computed(() => {
+      if (current.value === 'completed') {
+        return projects.value.filter(project => project.complete)
       } 
-      if (this.current === 'ongoing') {
-        return this.projects.filter(project => !project.complete)
+      if (current.value === 'ongoing') {
+        return projects.value.filter(project => !project.complete)
       } 
-      return this.projects
-    }
+      return projects.value
+    }) 
+
+
+    return { projects, current, handleDelete, handleComplete, filteredProjects }
   }
 }
 </script>
