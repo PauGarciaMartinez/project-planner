@@ -17,25 +17,22 @@
 </template>
 
 <script>
+import { projectFirestore } from '../firebase/config'
 export default {
   name: 'SingleProject',
   props: ['project'],
-  data() {
-    return {
-      visible: false,
-      uri: 'http://localhost:3000/projects/' + this.project.id
+  setup(props) {
+    const visible = false
+
+    const toggleVisibility = () => {
+      visible.value = !visible.value
     }
-  },
-  methods: {
-    toggleVisibility() {
-      this.visible = !this.visible
-    },
-    deleteProject() {
-      fetch(this.uri, { method: 'DELETE' })
-        .then(() => this.$emit('delete', this.project.id))
-        .catch(err => console.log(err.message))
-    },
-    toggleComplete() {
+
+    const deleteProject = () => {
+      projectFirestore.collection('projects').delete(props.project)
+    }
+
+    const toggleComplete = () => {
       fetch(this.uri, { 
         method: 'PATCH', 
         headers: { 'content-type': 'application/json' },
@@ -44,6 +41,8 @@ export default {
         this.$emit('complete', this.project.id)
       }).catch(err => console.log(err.message))
     }
+
+    return { visible, toggleVisibility, toggleComplete, deleteProject }
   }
 }
 </script>
